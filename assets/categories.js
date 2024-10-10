@@ -13,7 +13,7 @@ function genererProjets(works){
     for (let i = 0; i < works.length; i++) {
         const figure = works[i];
         // Récupération de l'élément DOM
-        const divGallery = document.querySelector(".gallery");
+        const divFiltres = document.querySelector(".gallery");
         // Création de balise pour works
         const workElement = document.createElement("figure");
         // Création balise
@@ -27,7 +27,7 @@ function genererProjets(works){
         textElement.innerText = figure.title
 
         // Rattachement à la div gallery
-        divGallery.appendChild(workElement)
+        divFiltres.appendChild(workElement)
         workElement.appendChild(imageElement)
         workElement.appendChild(textElement)
     }
@@ -35,30 +35,82 @@ function genererProjets(works){
 
 function genererCategories(categorie){
     // Récupération de l'élément DOM
-    const divGallery = document.querySelector("#portfolio h2");
+    const divFiltres = document.querySelector(".filtres");
     // Création div + balise p pour filtre tous
-    const allCategoriesElement = document.createElement("div")
-    const allTextElement = document.createElement("p")
+    const allTextElement = document.createElement("button")
     // Ajout texte
     allTextElement.innerText = "Tous"
+    allTextElement.classList = "All active"
     // Rattachement à div gallery en 1ere place 
-    divGallery.appendChild(allCategoriesElement)
-    allCategoriesElement.appendChild(allTextElement)
-
+    divFiltres.appendChild(allTextElement)
 
     for (let i = 0; i < categorie.length; i++){
         const figure = categorie[i];
-        // Création de balise pour categories
-        const categorieElement = document.createElement("div");
         // Création balise
-        const textElement = document.createElement("p")
-
+        const textElement = document.createElement("button")
         // Ajout texte pour textElement (balise p)
         textElement.innerText = figure.name
+        textElement.classList = figure.name
         // Rattachement à la div gallery
-        allCategoriesElement.appendChild(textElement)
+        divFiltres.appendChild(textElement)
     }
 }
 
 genererCategories(categories)
 genererProjets(works)
+
+// Gestion des boutons 
+    // Gestion class active
+function removeActive () {
+    let allButtons = document.querySelectorAll(".filtres button")
+    allButtons.forEach(function (button) {
+        button.classList.remove("active")
+    })
+}
+
+    // Bouton All 
+const boutonAll = document.querySelector(".All")
+boutonAll.addEventListener("click", function () {
+    /// document.querySelector(".filtres").innerHTML = ""
+    /// genererCategories(categories)
+    removeActive()
+    boutonAll.classList.add("active") 
+    document.querySelector(".gallery").innerHTML = ""
+    genererProjets(works)
+})
+
+    // Bouton Objet 
+const boutonObjet = document.querySelector(".Objets")
+boutonObjet.addEventListener("click", function () {
+    const worksObjets = works.filter(function (work) {
+        return work.categoryId === 1;
+    });
+    removeActive()
+    boutonObjet.classList.add("active") 
+    document.querySelector(".gallery").innerHTML = ""
+    genererProjets(worksObjets)
+})
+
+    // Bouton Appartement 
+const boutonAppartement = document.querySelector(".Appartements")
+boutonAppartement.addEventListener("click", function () {
+    const worksAppartement = works.filter(function (work) {
+        return work.categoryId === 2;
+    });
+    removeActive()
+    boutonAppartement.classList.add("active") 
+    document.querySelector(".gallery").innerHTML = ""
+    genererProjets(worksAppartement)
+})
+
+// Bouton Hotel & Restaurants
+const boutonHotelEtRestaurants = document.querySelector(".Hotels")
+boutonHotelEtRestaurants.addEventListener("click", function () {
+    const worksHetR = works.filter(function (work) {
+        return work.categoryId === 3;
+    });
+    removeActive()
+    boutonHotelEtRestaurants.classList = "active"
+    document.querySelector(".gallery").innerHTML = ""
+    genererProjets(worksHetR)
+})
