@@ -1,6 +1,6 @@
 const formLogin = document.querySelector(".form-login")
 
-export function userData (event) {
+function userData (event) {
     const log = {
         email: event.target.querySelector("[name=email]").value,
         password : event.target.querySelector("[name=password]").value

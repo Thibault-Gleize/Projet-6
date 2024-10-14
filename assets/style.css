@@ -250,3 +250,9 @@ footer nav ul {
 #email{
 	margin-bottom: 30px;
 }
+.login p {
+	position: relative;
+	bottom: 10em;
+	color: red;
+	margin-top: 1em
+}
