@@ -1,3 +1,5 @@
+// Check si nécessite refactorisation pour éviter les répétitions
+
 
 // Récupération works et catégorie depuis l'API
 const reponseWorks = await fetch("http://localhost:5678/api/works/");
@@ -5,7 +7,7 @@ let works = await reponseWorks.json();
 const reponseCategories = await fetch("http://localhost:5678/api/categories");
 let categories = await reponseCategories.json();
 
-// Transformation en JSON 
+// Transformation en chaîne de charactère JSON 
 const valeurWorks = JSON.stringify(works);
 const valeurCategories = JSON.stringify(categories);
 
@@ -32,6 +34,8 @@ function genererProjets(works){
         workElement.appendChild(textElement)
     }
 }
+
+// Création des filtres pour les catégories 
 
 function genererCategories(categorie){
     // Récupération de l'élément DOM
@@ -104,6 +108,7 @@ boutonAppartement.addEventListener("click", function () {
 })
 
 // Bouton Hotel & Restaurants
+// Check si possibilité de modifier la classe récupérer
 const boutonHotelEtRestaurants = document.querySelector(".Hotels")
 boutonHotelEtRestaurants.addEventListener("click", function () {
     const worksHetR = works.filter(function (work) {
