@@ -1,53 +1,85 @@
-const formLogin = document.querySelector(".form-login")
+const reponseWorks = await fetch("http://localhost:5678/api/works/");
+let works = await reponseWorks.json();
 
-function userData (event) {
-    const log = {
-        email: event.target.querySelector("[name=email]").value,
-        password : event.target.querySelector("[name=password]").value
+function modalePictures () {
+    const divModale = document.querySelector(".modale-box");
+    const divPhotos = document.createElement("div")
+    divPhotos.classList = "container-photos"
+    divModale.appendChild(divPhotos)
+
+    for (let i = 0; i < works.length; i++) {
+        const figure = works[i];
+        // Récupération de l'élément DOM
+        const divPhotos = document.querySelector(".container-photos");
+        // Création de balise pour works
+        const workElement = document.createElement("figure");
+        // Création balise img
+        const imageElement = document.createElement("img");
+        // Création balise pour poubelle
+        const binElement = document.createElement("i")
+
+        // Ajout source et alt pour imageElement (balise img)
+        imageElement.src = figure.imageUrl;
+        imageElement.alt = figure.title
+        // Ajout class pour bin
+        binElement.classList = "fa-solid fa-trash"
+
+        // Rattachement
+        divPhotos.appendChild(workElement)
+        workElement.appendChild(imageElement)
+        workElement.appendChild(binElement)
     }
-    // Création Charge utile 
-    const chargeUtile = JSON.stringify(log)
-    const response = fetch("http://localhost:5678/api/users/login", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: chargeUtile
-    })
-    /// const status = response.then(response => response.status)
-    const token = response.then(response => response.json()
-    .then(response => response.token))
-    return token
 }
 
-function submit () {
-    formLogin.addEventListener("submit", async function (event) {
-        event.preventDefault();
-        userData(event)
-        const x = await userData(event)
-        if (x !== undefined) {
-            window.location.replace("index.html")
-        }
-        else {
-            const champEmail = document.querySelector(".form-login");
-            const wrongPwd = document.createElement("p")
-            wrongPwd.innerText = "E-mail ou mot de passe incorrect"
-            champEmail.appendChild(wrongPwd)
-        }
-    })
+export async function modaleBox () { 
+    const main = document.querySelector("body")
+    const modaleSection = document.createElement("section")
+    const modaleDiv = document.createElement("div")
+    const closeCross = document.createElement("span")
+    const text = document.createElement("p")
+    const bar = document.createElement("div")
+    const addButton = document.createElement("button")
+
+    //
+    modaleSection.classList.add("modale")
+    //
+    modaleDiv.classList.add("modale-box")
+    // 
+    closeCross.classList.add("close")
+    closeCross.innerHTML = "&times;"
+    // 
+    text.innerText ="Galerie photo"
+    //
+    bar.classList.add("bar")
+    //
+    addButton.classList = ("modale-btn btn-hover")
+    addButton.innerText = "Ajouter une photo"
+
+    main.insertAdjacentElement("afterbegin", modaleSection)
+    modaleSection.appendChild(modaleDiv)
+    modaleDiv.appendChild(closeCross)
+    modaleDiv.appendChild(text)
+    modalePictures()
+    modaleDiv.appendChild(bar)
+    modaleDiv.appendChild(addButton)
 }
 
-submit()
+export async function openCloseModale () {
+    const closeModale = document.querySelector(".close")
+    const modal = document.querySelector(".modale")
+    const modaleButton = document.querySelector("#portfolio span")
 
-/* 
-1) Lors de l'appuie sur le bouton viens prendre les values
-dans e-mail et mdp 
+    modaleButton.onclick = function() {
+        modal.style.display = "block"
+    }
 
-2) Effectue ensuite la charge utile et la reponse
+    closeModale.onclick = function() {
+        modal.style.display = "none"
+    }
 
-3) return la reponse pour ensuite vérifier si status OK
-et enregistrement du token
-PS : check keep-alive et timeout dans header POSTMAN
-
-4) renvoie vers la page index qui permet les modifications
-
-5) Promesse  .catch
-*/
+    window.onclick = function(y) {
+        if (y.target == modal) {
+          modal.style.display = "none";
+        }
+    }
+}

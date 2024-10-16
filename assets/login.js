@@ -42,8 +42,6 @@ formLogin.addEventListener("submit", async function (event) {
     }
 })
 
-submit()
-
 
 /* 
 1) Lors de l'appuie sur le bouton viens prendre les values

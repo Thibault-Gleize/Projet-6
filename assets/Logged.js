@@ -1,4 +1,24 @@
+// Importe les fonctions permettant d'ouvrir/fermer la modale
+import { modaleBox, openCloseModale } from "./modal.js"
+
+/* 
+Récupère le token dans le local storage pour vérifier si
+utilisateur connecté
+*/
 let token = window.localStorage.getItem("token")
+
+/* 
+Permet de modifier la balise li login en logout et clear
+le localstorage pour supprimer le token et refresh la page index
+*/
+function logoutButton () {
+    const logout = document.querySelectorAll("header li")[2]
+    logout.innerText = "logout"
+    logout.addEventListener("click", function() {
+        localStorage.clear()
+        window.location.replace("index.html")
+    })
+}
 
 // Nécéssite refractorisation
 function modeEdition () {
@@ -51,7 +71,10 @@ deleteToken()
 // Applique la partie édition si le token n'est pas vide
 if (token != undefined || token != null) {
     modeEdition()
+    logoutButton()
     boutonEdition()
+    modaleBox()
+    openCloseModale()
 }
 
 
