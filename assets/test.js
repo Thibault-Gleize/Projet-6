@@ -1,88 +1,96 @@
-const formLogin = document.querySelector(".form-login")
+const reponseWorks = await fetch("http://localhost:5678/api/works/");
+let works = await reponseWorks.json();
 
-// Variable permettant ensuite d'intégrer event
-let y = ""
+function modalePictures () {
+    const divModale = document.querySelector(".modale-box");
+    const divPhotos = document.createElement("div")
+    divPhotos.classList = "container-photos"
+    divModale.appendChild(divPhotos)
 
-function login () {
-    const log = {
-        email: y.target.querySelector("[name=email]").value,
-        password : y.target.querySelector("[name=password]").value
+    for (let i = 0; i < works.length; i++) {
+        const figure = works[i];
+        // Récupération de l'élément DOM
+        const divPhotos = document.querySelector(".container-photos");
+        // Création de balise pour works
+        const workElement = document.createElement("figure");
+        // Création balise img
+        const imageElement = document.createElement("img");
+        // Création balise pour poubelle
+        const binElement = document.createElement("i")
+
+        // Ajout source et alt pour imageElement (balise img)
+        imageElement.src = figure.imageUrl;
+        imageElement.alt = figure.title
+        // Ajout class pour bin
+        binElement.classList = "fa-solid fa-trash"
+
+        // Rattachement
+        divPhotos.appendChild(workElement)
+        workElement.appendChild(imageElement)
+        workElement.appendChild(binElement)
     }
-    // Création Charge utile 
-    const chargeUtile = JSON.stringify(log)
-    // Partie fetch à l'API
-    const response = fetch("http://localhost:5678/api/users/login", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: chargeUtile
-    })
-    // Récupération du token
-    const token = response.then(response => response.json()
-    .then(response => response.token))
-    return token
 }
 
-formLogin.addEventListener("submit", async function (event) {
-    event.preventDefault();
-    y = event
-    login()
-    let token = await login()
-    // Stockage du token dans localstorage + renvoie à la page index
-    if (token !== undefined) {
-        window.localStorage.setItem("token", token)
-        window.location.replace("index.html")
-    }
-    /* Nécessité de refaire cette partie avec innerHTML pour éviter
-    si mot de passe incorrect de relancer la fonction*/
-    else {
-    const champEmail = document.querySelector(".form-login");
-    const wrongPwd = document.createElement("p")
-    wrongPwd.innerText = "E-mail ou mot de passe incorrect"
-    champEmail.appendChild(wrongPwd)
-    }
-})
+export async function modaleBox () { 
+    const main = document.querySelector("body")
+    const modaleSection = document.createElement("section")
+    const modaleDiv = document.createElement("div")
+    const closeCross = document.createElement("span")
+    const text = document.createElement("p")
+    const bar = document.createElement("div")
+    const addButton = document.createElement("button")
 
+    //
+    modaleSection.classList.add("modale")
+    //
+    modaleDiv.classList.add("modale-box")
+    // 
+    closeCross.classList.add("close")
+    closeCross.innerHTML = "&times;"
+    // 
+    text.innerText ="Galerie photo"
+    //
+    bar.classList.add("bar")
+    //
+    addButton.classList = ("modale-btn btn-hover")
+    addButton.innerText = "Ajouter une photo"
 
-
-
-
-
-
-
-
-
-
-/* 
-export function userData (event) {
-    const log = {
-        email: event.target.querySelector("[name=email]").value,
-        password : event.target.querySelector("[name=password]").value
-    }
-    // Création Charge utile 
-    const chargeUtile = JSON.stringify(log)
-    const response = fetch("http://localhost:5678/api/users/login", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: chargeUtile
-    })
-    const token = response.then(response => response.json()
-    .then(response => response.token))
-    return token
+    main.insertAdjacentElement("afterbegin", modaleSection)
+    modaleSection.appendChild(modaleDiv)
+    modaleDiv.appendChild(closeCross)
+    modaleDiv.appendChild(text)
+    modalePictures()
+    modaleDiv.appendChild(bar)
+    modaleDiv.appendChild(addButton)
 }
 
-const submit = formLogin.addEventListener("submit", async function (event) {
-    event.preventDefault();
-    userData(event)
-    const x = await userData(event)
-    if (x !== undefined) {
-        console.log(x);
+export async function openCloseModale () {
+    const closeModale = document.querySelector(".close")
+    const modal = document.querySelector(".modale")
+    const modaleButton = document.querySelector("#portfolio span")
+
+    modaleButton.onclick = function() {
+        modal.style.display = "block"
     }
-    else {
-    const champEmail = document.querySelector(".form-login");
-    const wrongPwd = document.createElement("p")
-    wrongPwd.innerText = "E-mail ou mot de passe incorrect"
-    champEmail.appendChild(wrongPwd)
+
+    closeModale.onclick = function() {
+        modal.style.display = "none"
     }
-})
+
+    window.onclick = function(y) {
+        if (y.target == modal) {
+          modal.style.display = "none";
+        }
+    }
+}
+
+
+
+/* Création de la modale étapes 
+
+1) Création via JS de la modale 
+    - insert adjacent element de main
+
+3) 
+
 */
-
