@@ -1,5 +1,5 @@
 // Importe les fonctions permettant d'ouvrir/fermer la modale
-import { modaleBox, openCloseModale } from "./modal.js"
+import { modaleBox, openCloseModale, addPhotoModal } from "./modal.js"
 
 /* 
 Récupère le token dans le local storage pour vérifier si
@@ -73,8 +73,10 @@ if (token != undefined || token != null) {
     modeEdition()
     logoutButton()
     boutonEdition()
+    // Ajout des fonctions lié à la modale sur l'HTML 
     modaleBox()
     openCloseModale()
+    addPhotoModal()
 }
 
 
