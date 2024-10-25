@@ -16,8 +16,6 @@ if (token) {
     imgChange()
     addFetchBtn()
 
-    
-
     function deleteToken () {
         let hours = 1 
         let now = new Date().getTime()

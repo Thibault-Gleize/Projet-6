@@ -142,12 +142,7 @@ export function deleteWork () {
     const token = localStorage.getItem("token")
     const trashList = document.querySelectorAll(".container-photos i")
     const containerPhotos = document.querySelector(".container-photos")
-    let workID = works.map(work => work.id)
-    
-    for (let i = 0; i < trashList.length; i++) {
-        let trash = trashList[i]
-        trash.id = workID[i]
-    }
+
     trashList.forEach(function (trash) {
         trash.onclick = async function(fetchDetele) {
             fetchDetele = fetch(`http://localhost:5678/api/works/${trash.id}`, {
@@ -197,7 +192,7 @@ export function addFetchBtn () {
 
 
 
-function fetchAddWork () {
+export function fetchAddWork () {
     const token = localStorage.getItem("token")
     let pictureName = document.getElementById("pictureName")
     let nameValue = pictureName.value
@@ -206,7 +201,7 @@ function fetchAddWork () {
     let fetch = document.querySelector("#fileUpload")
     
     const formdata = new FormData();
-    formdata.append("image", fetch.files[0], "/C:/Users/lauth/Pictures/Down.png");
+    formdata.append("image", fetch.files[0]);
     formdata.append("title", nameValue);
     formdata.append("category", categoryValue);
     

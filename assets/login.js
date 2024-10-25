@@ -18,11 +18,14 @@ function login () {
     })
     // Récupération du token
     const token = response.then(response => response.json()
-    .then(response => response.token))
+        .then(response => response.token))
+        .catch((error) => alert(error))
     return token
 }
 
 formLogin.addEventListener("submit", async function (event) {
+    const incorrectPwd = document.querySelector(".login p")
+    incorrectPwd.style.display = "none"
     event.preventDefault();
     y = event
     login()
@@ -35,10 +38,7 @@ formLogin.addEventListener("submit", async function (event) {
     /* Nécessité de refaire cette partie avec innerHTML pour éviter
     si mot de passe incorrect de relancer la fonction*/
     else {
-    const champEmail = document.querySelector(".form-login");
-    const wrongPwd = document.createElement("p")
-    wrongPwd.innerText = "E-mail ou mot de passe incorrect"
-    champEmail.appendChild(wrongPwd)
+        incorrectPwd.style.display = "block"
     }
 })
 
