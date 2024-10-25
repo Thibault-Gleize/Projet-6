@@ -1,25 +1,16 @@
-const reponseWorks = await fetch("http://localhost:5678/api/works/");
-let works = await reponseWorks.json();
+import { works } from "./New_JS_file/index.js";
 
 /* Permet de récupérer les photos dans l'API 
 Certainement possibilité de récupérer plus facilement via le
 fichier categories js 
 */
-function modalePictures () {
-    const divModale = document.querySelector(".modale-box");
-    const divPhotos = document.createElement("div")
-    divPhotos.classList = "container-photos"
-    divModale.appendChild(divPhotos)
 
+export function modalePictures (works) { 
     for (let i = 0; i < works.length; i++) {
         const figure = works[i];
-        // Récupération de l'élément DOM
         const divPhotos = document.querySelector(".container-photos");
-        // Création de balise pour works
         const workElement = document.createElement("figure");
-        // Création balise img
         const imageElement = document.createElement("img");
-        // Création balise pour poubelle
         const binElement = document.createElement("i")
 
         // Ajout source et alt pour imageElement (balise img)
@@ -41,6 +32,7 @@ function AddPictures () {
     // Rajout de la partie image
     const titleText = document.querySelector(".modale-box p")
     const addPictureContainer = document.createElement("div")
+    const addPictureDiv = document.createElement("div")
     const picture = document.createElement("i")
     const pictureInput = document.createElement("input")
     const pictureInputLabel = document.createElement("label")
@@ -50,6 +42,9 @@ function AddPictures () {
     const pictureName = document.createElement("input")
     const pictureNameLabel = document.createElement("label")
     const categoryName = document.createElement("select")
+    const category1 = document.createElement("option")
+    const category2 = document.createElement("option")
+    const category3 = document.createElement("option")
     const categoryNameLabel = document.createElement("label")
     
     // 
@@ -67,19 +62,27 @@ function AddPictures () {
     divNameCategorie.classList = "name-category"
     pictureName.type = "text"
     pictureName.id = "pictureName"
+    pictureName.name = "pictureName"
     pictureNameLabel.innerText = "Titre"
     pictureNameLabel.htmlFor = "pictureName"
     categoryName.name = "Category"
     categoryName.id = "CategoryName"
     categoryNameLabel.innerText = "Catégorie"
     categoryNameLabel.htmlFor = "CategoryName"
+    category1.value = "1"
+    category1.innerText = "Objets"
+    category2.value = "2"
+    category2.innerText = "Appartements"
+    category3.value = "3"
+    category3.innerText = "Hotels & restaurants"
 
     // Rattachement ajout photo
     divModale.insertAdjacentElement("beforebegin", addPictureContainer)
-    addPictureContainer.appendChild(picture)
-    addPictureContainer.appendChild(pictureInput)
-    addPictureContainer.appendChild(pictureInputLabel)
-    addPictureContainer.appendChild(limitSizeText)
+    addPictureContainer.appendChild(addPictureDiv)
+    addPictureDiv.appendChild(picture)
+    addPictureDiv.appendChild(pictureInput)
+    addPictureDiv.appendChild(pictureInputLabel)
+    addPictureDiv.appendChild(limitSizeText)
 
     // Rattachement name and category
     divModale.insertAdjacentElement("beforebegin", divNameCategorie)
@@ -87,6 +90,9 @@ function AddPictures () {
     divNameCategorie.appendChild(pictureName)
     divNameCategorie.appendChild(categoryNameLabel)
     divNameCategorie.appendChild(categoryName)
+    categoryName.appendChild(category1)
+    categoryName.appendChild(category2)
+    categoryName.appendChild(category3)
 }
 
 // Création de la modale avec par défaut
@@ -100,6 +106,7 @@ export async function modaleBox () {
     const addButton = document.createElement("button")
     const returnArrow = document.createElement("i")
 
+    const fetchBtn = document.createElement("button")
     //
     modaleSection.classList.add("modale")
     //
@@ -114,6 +121,8 @@ export async function modaleBox () {
     //
     addButton.classList = ("modale-btn btn-hover")
     addButton.innerText = "Ajouter une photo"
+    fetchBtn.classList = ("inactive-btn fetch")
+    fetchBtn.innerText = ("Nouveau bouton")
     // 
     returnArrow.classList = "return-arrow fa-solid fa-arrow-left"
 
@@ -122,9 +131,16 @@ export async function modaleBox () {
     modaleDiv.appendChild(closeCross)
     modaleDiv.insertAdjacentElement("afterbegin", returnArrow)
     modaleDiv.appendChild(text)
-    modalePictures()
+
+    const divModale = document.querySelector(".modale-box");
+    const divPhotos = document.createElement("div")
+    divPhotos.classList = "container-photos"
+    divModale.appendChild(divPhotos)
+
+    modalePictures(works)
     modaleDiv.appendChild(bar)
     modaleDiv.appendChild(addButton)
+    modaleDiv.appendChild(fetchBtn)
     AddPictures()
 }
 
@@ -176,4 +192,9 @@ export function addPhotoModal () {
         addPhotoContainer.style.display = "none"
         nameAndCategory.style.display = "none"
     })
+}
+
+export function modalButtons () {
+    openCloseModale()
+    addPhotoModal()
 }

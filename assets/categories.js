@@ -3,7 +3,7 @@
 
 // Récupération works et catégorie depuis l'API
 const reponseWorks = await fetch("http://localhost:5678/api/works/");
-let works = await reponseWorks.json();
+export let works = await reponseWorks.json();
 const reponseCategories = await fetch("http://localhost:5678/api/categories");
 let categories = await reponseCategories.json();
 
