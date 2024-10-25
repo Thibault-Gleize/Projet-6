@@ -19,7 +19,7 @@ function login () {
     // Récupération du token
     const token = response.then(response => response.json()
         .then(response => response.token))
-        .catch((error) => alert(error))
+        // .catch((error) => alert("Impossible de communiquer avec le serveur"))
     return token
 }
 
@@ -28,17 +28,19 @@ formLogin.addEventListener("submit", async function (event) {
     incorrectPwd.style.display = "none"
     event.preventDefault();
     y = event
-    login()
-    let token = await login()
-    // Stockage du token dans localstorage + renvoie à la page index
-    if (token !== undefined) {
-        window.localStorage.setItem("token", token)
-        window.location.replace("index.html")
+    try {
+        login()
+        let token = await login()
+        if (token) {
+            window.localStorage.setItem("token", token)
+            window.location.replace("index.html")
+        }
+        else {
+            incorrectPwd.style.display = "block"
+        }
     }
-    /* Nécessité de refaire cette partie avec innerHTML pour éviter
-    si mot de passe incorrect de relancer la fonction*/
-    else {
-        incorrectPwd.style.display = "block"
+    catch {
+        alert("Impossible de communiquer avec le serveur")  
     }
 })
 
