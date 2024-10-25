@@ -1,5 +1,5 @@
 import {works, genererProjets} from "./index.js"
-import {modalePictures} from "../modal.js"
+import {modalePictures} from "./modal.js"
 
 /* Gestion des boutons des catégories */
 

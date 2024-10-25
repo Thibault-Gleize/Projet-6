@@ -1,6 +1,6 @@
 import { deleteWork, addFetchBtn, imgChange } from "./gestionButtons.js"
 import {genererProjets, genererCategories, works, editionFeatures} from "./index.js"
-import { modalButtons, modaleBox } from "../modal.js"
+import { modalButtons, modaleBox } from "./modal.js"
 
 let token = window.localStorage.getItem("token")
 

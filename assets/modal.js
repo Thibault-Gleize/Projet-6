@@ -1,4 +1,4 @@
-import { works } from "./New_JS_file/index.js";
+import { works } from "./index.js";
 
 /* Permet de récupérer les photos dans l'API 
 Certainement possibilité de récupérer plus facilement via le
