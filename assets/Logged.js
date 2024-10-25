@@ -1,5 +1,5 @@
 // Importe les fonctions permettant d'ouvrir/fermer la modale
-import { modaleBox, openCloseModale, addPhotoModal } from "./modal.js"
+import { modaleBox, openCloseModale, addPhotoModal, modalePictures } from "./modal.js"
 
 /* 
 Récupère le token dans le local storage pour vérifier si
@@ -79,6 +79,39 @@ if (token != undefined || token != null) {
     addPhotoModal()
 }
 
+/* 
+    Gestion du delete
+*/
 
+function message () {
+    const myWindow = window.open("", "MsgWindow", "width=200, height=100");
+    myWindow.document.write("Suppression réussi");
+    }
 
+const reponseWorks = await fetch("http://localhost:5678/api/works/");
+let works = await reponseWorks.json()
+let workID = works.map(work => work.id)
 
+export function deleteWork () {
+    const trashList = document.querySelectorAll(".container-photos i")
+    const containerPhotos = document.querySelector(".container-photos")
+    for (let i = 0; i < trashList.length; i++) {
+        let trash = trashList[i]
+        trash.id = workID[i]
+    }
+    trashList.forEach(function (trash) {
+        trash.onclick = async function(fetchDetele) {
+            fetchDetele = fetch(`http://localhost:5678/api/works/${trash.id}`, {
+                method:"DELETE",
+                headers: {"Authorization": "Bearer " + token},
+            })
+            fetch("http://localhost:5678/api/works/")
+                .then((response) => response.json())
+                .then((result) => result)
+            containerPhotos.innerHTML = ""
+            modalePictures(result)  
+        }
+    })
+}
+
+deleteWork()
