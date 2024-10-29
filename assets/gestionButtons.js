@@ -88,6 +88,7 @@ export function logoutButton () {
 }
 
 // Boutons relatif à la modal
+/*
 export async function openCloseModale () {
     const closeModale = document.querySelector(".close")
     const modal = document.querySelector(".modale")
@@ -122,12 +123,17 @@ export function ajouterPhotoModal () {
     const photoContainer = document.querySelector(".container-photos")
     const addPhotoContainer = document.querySelector(".ajouter-photo")
     const nameAndCategory = document.querySelector(".name-category")
+    const fetchBtn = document.querySelector(".fetch")
+
     ajouterPhoto.addEventListener("click", function(){
         returnArrow.style.display = "block"
         photoContainer.style.display = "none"
         addPhotoContainer.style.display = "flex"
         nameAndCategory.style.display = "flex"
+        fetchBtn.style.display = "block"
+        ajouterPhoto.style.display = "none"
     })
+
     returnArrow.addEventListener("click", function(){
         returnArrow.style.display = "none"
         photoContainer.style.display = "flex"
@@ -135,8 +141,11 @@ export function ajouterPhotoModal () {
         nameAndCategory.style.display = "none"
     })
 }
-
+*/
 // Bouton modal qui gère le fetch
+
+let imgCondition = false
+let textCondition = false
 
 export function deleteWork () {
     const token = localStorage.getItem("token")
@@ -145,14 +154,14 @@ export function deleteWork () {
 
     trashList.forEach(function (trash) {
         trash.onclick = async function(fetchDetele) {
-            fetchDetele = fetch(`http://localhost:5678/api/works/${trash.id}`, {
+            fetchDetele = await fetch(`http://localhost:5678/api/works/${trash.id}`, {
                 method:"DELETE",
                 headers: {"Authorization": "Bearer " + token},
             })
-            let newFetch = fetch("http://localhost:5678/api/works/")
-                .then((response) => response.json())
-                .then((result) => result)
-            const works = newFetch
+                .catch((error) => alert("Un problème est survenu, réessayer plus tard")) 
+            let newFetch = await fetch("http://localhost:5678/api/works/")
+                .then ((response) => response.json())
+            let works = await newFetch
             containerPhotos.innerHTML = ""
             document.querySelector(".gallery").innerHTML = ""
             modalePictures(await works)
@@ -172,21 +181,51 @@ export function imgChange () {
         img.src = URL.createObjectURL(fetch.files[0])
         divPicture.insertAdjacentElement("afterbegin", img)
         divAddPicture.style.display = "none"
+        imgCondition = true
+    }
+}
+
+export function txtChange () {
+    const workName = document.getElementById("pictureName")
+    const validationBtn = document.querySelector(".fetch")
+
+    workName.onchange = () => {
+        if (imgCondition === true) {
+            textCondition = true
+            validationBtn.classList.remove("inactive-btn")
+            validationBtn.classList.add("modale-btn")
+        }
     }
 }
 
 export function addFetchBtn () {
     let newBtn = document.querySelector(".fetch")
+    console.log(works)
+
     newBtn.onclick = async function (addFetch) {
-        addFetch = fetch("http://localhost:5678/api/works", fetchAddWork())
-        let newFetch = fetch("http://localhost:5678/api/works/")
+        if (imgCondition === true && textCondition === true) {
+            addFetch = await fetch("http://localhost:5678/api/works", fetchAddWork())
+                .catch((error) => alert("Un problème est survenu, réessayer plus tard")) 
+            let newFetch = await fetch("http://localhost:5678/api/works/")
                 .then((response) => response.json())
-                .then((result) => result)
-            const works = newFetch
+            let works = await newFetch
+            console.log(works)
             document.querySelector(".container-photos").innerHTML = ""
             document.querySelector(".gallery").innerHTML = ""
             modalePictures(await works)
             genererProjets(await works)
+            imgCondition = false
+            textCondition = false
+            document.querySelector("#pictureName").value = ""
+            document.querySelector(".ajouter-photo div").style.display = "flex"
+            const currentImg = document.querySelector(".ajouter-photo img")
+            currentImg.remove()
+            newBtn.classList.add("inactive-btn")
+            newBtn.classList.remove("modale-btn")
+        }
+        else {
+            alert("Tous les champs ne sont pas remplie")
+        }
     }
 }
 
@@ -199,17 +238,17 @@ export function fetchAddWork () {
     let categoryName = document.getElementById("CategoryName")
     let categoryValue = categoryName.value
     let fetch = document.querySelector("#fileUpload")
-    
-    const formdata = new FormData();
-    formdata.append("image", fetch.files[0]);
-    formdata.append("title", nameValue);
-    formdata.append("category", categoryValue);
-    
-    const requestOptions = {
-        method:"POST",
-        headers: {"Authorization": "Bearer " + token},
-        body: formdata,
+
+        const formdata = new FormData();
+        formdata.append("image", fetch.files[0]);
+        formdata.append("title", nameValue);
+        formdata.append("category", categoryValue);
+        
+        const requestOptions = {
+            method:"POST",
+            headers: {"Authorization": "Bearer " + token},
+            body: formdata,
+        }
+        return requestOptions
     }
-    return requestOptions
-}
 

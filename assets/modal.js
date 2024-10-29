@@ -98,7 +98,7 @@ function AddPictures () {
     categoryName.appendChild(category1)
     categoryName.appendChild(category2)
     categoryName.appendChild(category3)
-    addFetchBtn()
+    //addFetchBtn()
 }
 
 // Création de la modale avec par défaut
@@ -128,7 +128,7 @@ export async function modaleBox () {
     addButton.classList = ("modale-btn btn-hover")
     addButton.innerText = "Ajouter une photo"
     fetchBtn.classList = ("inactive-btn fetch")
-    fetchBtn.innerText = ("Nouveau bouton")
+    fetchBtn.innerText = ("Valider")
     // 
     returnArrow.classList = "return-arrow fa-solid fa-arrow-left"
 
@@ -159,6 +159,8 @@ export async function openCloseModale () {
     const photoContainer = document.querySelector(".container-photos")
     const addPhotoContainer = document.querySelector(".ajouter-photo")
     const nameAndCategory = document.querySelector(".name-category")
+    const fetchBtn = document.querySelector(".fetch")
+    const ajouterPhoto = document.querySelector(".modale-btn")
 
     modaleButton.onclick = function() {
         modal.style.display = "block"
@@ -170,11 +172,23 @@ export async function openCloseModale () {
 
     closeModale.onclick = function() {
         modal.style.display = "none"
+        fetchBtn.style.display = "none"
+        ajouterPhoto.style.display = "block"
+        /*
+        document.querySelector(".ajouter-photo img").style.display = "none"
+        document.querySelector(".ajouter-photo div").style.display = "flex"
+        */
     }
 
     window.onclick = function(y) {
         if (y.target == modal) {
-          modal.style.display = "none";
+            modal.style.display = "none";
+            fetchBtn.style.display = "none"
+            ajouterPhoto.style.display = "block"
+            /*
+            document.querySelector(".ajouter-photo img").style.display = "none"
+            document.querySelector(".ajouter-photo div").style.display = "flex"
+            */
         }
     }
 }
@@ -186,17 +200,25 @@ export function addPhotoModal () {
     const photoContainer = document.querySelector(".container-photos")
     const addPhotoContainer = document.querySelector(".ajouter-photo")
     const nameAndCategory = document.querySelector(".name-category")
+    const fetchBtn = document.querySelector(".fetch")
+
     ajouterPhoto.addEventListener("click", function(){
         returnArrow.style.display = "block"
         photoContainer.style.display = "none"
         addPhotoContainer.style.display = "flex"
         nameAndCategory.style.display = "flex"
+        ajouterPhoto.style.display = "none"
+        fetchBtn.style.display = "block"
     })
     returnArrow.addEventListener("click", function(){
         returnArrow.style.display = "none"
         photoContainer.style.display = "flex"
         addPhotoContainer.style.display = "none"
         nameAndCategory.style.display = "none"
+        ajouterPhoto.style.display = "block"
+        fetchBtn.style.display = "none"
+            
+        document.querySelector(".ajouter-photo div").style.display = "flex"
     })
 }
 
