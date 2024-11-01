@@ -50,7 +50,6 @@ import {modalePictures} from "./modal.js"
     
     
     function btnHotelEtRestaurants () {
-        // Check si possibilité de modifier la classe récupérer
     const boutonHotelEtRestaurants = document.querySelector(".Hotels")
     boutonHotelEtRestaurants.addEventListener("click", function () {
         const worksHetR = works.filter(function (work) {
@@ -63,8 +62,8 @@ import {modalePictures} from "./modal.js"
         })
     }
     
-
-    export function filterButtons () {
+// Regroupement de tous les boutons pour être intégrer à main
+    export function boutonsFiltres () {
         btnTous()
         btnObjet()
         btnAppartement()
@@ -87,67 +86,11 @@ export function logoutButton () {
     })
 }
 
-// Boutons relatif à la modal
-/*
-export async function openCloseModale () {
-    const closeModale = document.querySelector(".close")
-    const modal = document.querySelector(".modale")
-    const modaleButton = document.querySelector("#portfolio span")
-    const returnArrow = document.querySelector(".fa-arrow-left")
-    const photoContainer = document.querySelector(".container-photos")
-    const addPhotoContainer = document.querySelector(".ajouter-photo")
-    const nameAndCategory = document.querySelector(".name-category")
+/* Boutons relatif à la modal */
 
-    modaleButton.onclick = function() {
-        modal.style.display = "block"
-        returnArrow.style.display = "none"
-        photoContainer.style.display = "flex"
-        addPhotoContainer.style.display = "none"
-        nameAndCategory.style.display = "none"
-    }
+// Boutons relatif à la suppression et l'ajout des works
 
-    closeModale.onclick = function() {
-        modal.style.display = "none"
-    }
-
-    window.onclick = function(y) {
-        if (y.target == modal) {
-          modal.style.display = "none";
-        }
-    }
-}
-
-export function ajouterPhotoModal () {
-    const ajouterPhoto = document.querySelector(".modale-btn")
-    const returnArrow = document.querySelector(".fa-arrow-left")
-    const photoContainer = document.querySelector(".container-photos")
-    const addPhotoContainer = document.querySelector(".ajouter-photo")
-    const nameAndCategory = document.querySelector(".name-category")
-    const fetchBtn = document.querySelector(".fetch")
-
-    ajouterPhoto.addEventListener("click", function(){
-        returnArrow.style.display = "block"
-        photoContainer.style.display = "none"
-        addPhotoContainer.style.display = "flex"
-        nameAndCategory.style.display = "flex"
-        fetchBtn.style.display = "block"
-        ajouterPhoto.style.display = "none"
-    })
-
-    returnArrow.addEventListener("click", function(){
-        returnArrow.style.display = "none"
-        photoContainer.style.display = "flex"
-        addPhotoContainer.style.display = "none"
-        nameAndCategory.style.display = "none"
-    })
-}
-*/
-// Bouton modal qui gère le fetch
-
-let imgCondition = false
-let textCondition = false
-
-export function deleteWork () {
+export function supprProjet () {
     const token = localStorage.getItem("token")
     const trashList = document.querySelectorAll(".container-photos i")
     const containerPhotos = document.querySelector(".container-photos")
@@ -170,15 +113,19 @@ export function deleteWork () {
     })
 }
 
-export function imgChange () {
-    let fetch = document.querySelector("#fileUpload")
+// Variables qui permettent de vérifier que l'image et le text sont ajouté
+let imgCondition = false
+let textCondition = false
 
-    fetch.onchange = () => {
+export function imgChange () {
+    let file = document.querySelector("#fileUpload")
+
+    file.onchange = () => {
         const divPicture = document.querySelector(".ajouter-photo")
         const divAddPicture = document.querySelector(".ajouter-photo div")
 
         const img = document.createElement("img")
-        img.src = URL.createObjectURL(fetch.files[0])
+        img.src = URL.createObjectURL(file.files[0])
         divPicture.insertAdjacentElement("afterbegin", img)
         divAddPicture.style.display = "none"
         imgCondition = true
@@ -198,13 +145,13 @@ export function txtChange () {
     }
 }
 
-export function addFetchBtn () {
+export function ajouterWorkBtn () {
     let newBtn = document.querySelector(".fetch")
     console.log(works)
 
     newBtn.onclick = async function (addFetch) {
         if (imgCondition === true && textCondition === true) {
-            addFetch = await fetch("http://localhost:5678/api/works", fetchAddWork())
+            addFetch = await fetch("http://localhost:5678/api/works", ajouterWorkInfo())
                 .catch((error) => alert("Un problème est survenu, réessayer plus tard")) 
             let newFetch = await fetch("http://localhost:5678/api/works/")
                 .then((response) => response.json())
@@ -231,7 +178,7 @@ export function addFetchBtn () {
 
 
 
-export function fetchAddWork () {
+function ajouterWorkInfo () {
     const token = localStorage.getItem("token")
     let pictureName = document.getElementById("pictureName")
     let nameValue = pictureName.value

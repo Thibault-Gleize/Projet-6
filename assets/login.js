@@ -43,29 +43,3 @@ formLogin.addEventListener("submit", async function (event) {
         alert("Impossible de communiquer avec le serveur")  
     }
 })
-
-
-/* 
-1) Lors de l'appuie sur le bouton viens prendre les values
-dans e-mail et mdp 
-
-2) Effectue ensuite la charge utile et la reponse
-
-3) return la reponse pour ensuite vérifier si status OK
-et enregistrement du token
-PS : check keep-alive et timeout dans header POSTMAN
-
-4) renvoie vers la page index qui permet les modifications
-
-5) Promesse  .catch
-*/
-
-
-/* Partie Modification de la page index une fois connecté 
-
-1) Une fois connecté = token enregistré dans x dans submit. 
-
-2) Autre fichier Connected qui permet de modifier le HTML
-
-
-*/

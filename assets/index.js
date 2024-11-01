@@ -1,4 +1,4 @@
-import { logoutButton, filterButtons } from "./gestionButtons.js";
+import { logoutButton, boutonsFiltres } from "./gestionButtons.js";
 
 // Récupération works et catégorie depuis l'API
 const reponseWorks = await fetch("http://localhost:5678/api/works/");
@@ -8,12 +8,10 @@ let categories = await reponseCategories.json();
 
 /* Ajout HTML pour la partie index sans token */
 
-const parentDiv = document.querySelector(".gallery");
-
 export function genererProjets(works) {
     for (let i = 0; i < works.length; i++) {
         const figure = works[i];
-        const divFiltres = document.querySelector(".gallery");
+        const divGallerie = document.querySelector(".gallery");
         const workElement = document.createElement("figure");
         const imageElement = document.createElement("img");
         const textElement = document.createElement("figcaption")
@@ -25,7 +23,7 @@ export function genererProjets(works) {
         textElement.innerText = figure.title
 
         // Rattachement à la div gallery
-        parentDiv.appendChild(workElement)
+        divGallerie.appendChild(workElement)
         workElement.appendChild(imageElement)
         workElement.appendChild(textElement)
     }
@@ -35,30 +33,31 @@ export function genererProjets(works) {
 export function genererCategories(){
     // Récupération de l'élément DOM
     const divFiltres = document.querySelector(".filtres");
-    // Création div + balise p pour filtre tous
+    // Création boutons pour filtre "Tous"
     const allTextElement = document.createElement("button")
-    // Ajout texte
+    // Ajout texte + class
     allTextElement.innerText = "Tous"
     allTextElement.classList = "All active"
-    // Rattachement à div gallery en 1ere place 
+    // Rattachement à div filtre
     divFiltres.appendChild(allTextElement)
 
     for (let i = 0; i < categories.length; i++){
         const figure = categories[i];
-        // Création balise
+        // Création balise des autres boutons
         const textElement = document.createElement("button")
         // Ajout texte pour textElement (balise p)
         textElement.innerText = figure.name
         textElement.classList = figure.name
-        // Rattachement à la div gallery
+        // Rattachement à la div filtres
         divFiltres.appendChild(textElement)
     }
-    filterButtons()
+    boutonsFiltres()
 }
 
 /* Ajout HTML pour la partie index avec token */
 
-export function modeEdition () {
+// Ajout de la barre "Mode édition"
+function modeEdition () {
     const body = document.querySelector("body")
     const editionBar = document.createElement("div")
     const icone = document.createElement("i")
@@ -72,7 +71,7 @@ export function modeEdition () {
     logoutButton()
 }
 
-export function boutonEdition () {
+function boutonEdition () {
     const filtres = document.querySelector(".filtres")
     filtres.classList.add("invisible")
 
@@ -86,9 +85,7 @@ export function boutonEdition () {
     editionButton.insertAdjacentElement("afterbegin", icone)
 }
 
-export function editionFeatures () {
+export function edition () {
     modeEdition()
     boutonEdition()
 }
-
-//

@@ -1,4 +1,4 @@
-import { addFetchBtn, deleteWork } from "./gestionButtons.js";
+import { supprProjet } from "./gestionButtons.js";
 import { works } from "./index.js";
 
 /* Permet de récupérer les photos dans l'API 
@@ -27,7 +27,6 @@ export function modalePictures (works) {
 
         let workID = works.map(work => work.id)
         binElement.id = workID[i]
-        deleteWork()
     }
 }
 
@@ -98,7 +97,6 @@ function AddPictures () {
     categoryName.appendChild(category1)
     categoryName.appendChild(category2)
     categoryName.appendChild(category3)
-    //addFetchBtn()
 }
 
 // Création de la modale avec par défaut
