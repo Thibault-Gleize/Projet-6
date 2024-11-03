@@ -206,7 +206,7 @@ export function addPhotoModal () {
         ajouterPhoto.style.display = "none"
 
     })
-    
+
     returnArrow.addEventListener("click", function(){
         ajouterPhoto.style.display = "block"
         photoContainer.style.display = "flex"
@@ -218,7 +218,7 @@ export function addPhotoModal () {
     })
 }
 
-export function modalButtons () {
+export function modalBoutons () {
     openCloseModale()
     addPhotoModal()
 }

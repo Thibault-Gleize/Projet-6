@@ -1,6 +1,6 @@
 import { supprProjet, ajouterWorkBtn, imgChange, txtChange, loginBouton } from "./gestionButtons.js"
 import {genererProjets, genererCategories, works, edition} from "./index.js"
-import { modalButtons, modaleBox } from "./modal.js"
+import { modalBoutons, modaleBox } from "./modal.js"
 
 let token = window.localStorage.getItem("token")
 
@@ -10,7 +10,7 @@ genererCategories()
 if (token) {
     edition()
     modaleBox()
-    modalButtons()
+    modalBoutons()
     supprProjet()
     imgChange()
     txtChange()
