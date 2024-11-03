@@ -286,6 +286,10 @@ span{
 	font-size: 0.825rem;
 }
 
+#portfolio span{
+	cursor: pointer;
+}
+
 span i{
 	margin-right: 11px;
 }
