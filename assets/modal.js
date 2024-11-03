@@ -1,11 +1,8 @@
 import { supprProjet } from "./gestionButtons.js";
 import { works } from "./index.js";
 
-/* Permet de récupérer les photos dans l'API 
-Certainement possibilité de récupérer plus facilement via le
-fichier categories js 
-*/
-
+/* Permet de récupérer les photos dans l'API pour les afficher
+dans la modale */
 export function modalePictures (works) { 
     for (let i = 0; i < works.length; i++) {
         const figure = works[i];
@@ -27,12 +24,14 @@ export function modalePictures (works) {
 
         let workID = works.map(work => work.id)
         binElement.id = workID[i]
+        supprProjet()
     }
 }
 
 // Modification de la modale pour la page ajouter photo
 function AddPictures () {
     const divModale = document.querySelector(".container-photos");
+
     // Rajout de la partie image
     const titleText = document.querySelector(".modale-box p")
     const addPictureContainer = document.createElement("div")
@@ -41,6 +40,7 @@ function AddPictures () {
     const pictureInput = document.createElement("input")
     const pictureInputLabel = document.createElement("label")
     const limitSizeText = document.createElement("p")
+
     // Rajout de la partie titre et catégorie
     const divNameCategorie = document.createElement("div")
     const pictureName = document.createElement("input")
@@ -51,7 +51,7 @@ function AddPictures () {
     const category3 = document.createElement("option")
     const categoryNameLabel = document.createElement("label")
     
-    // 
+    // Rajout des caractéristiques des balises images
     titleText.innerText = "Ajout photo"
     addPictureContainer.classList = "ajouter-photo"
     picture.classList = "fa-regular fa-image"
@@ -62,7 +62,8 @@ function AddPictures () {
     pictureInputLabel.classList = "upload-photo"
     pictureInputLabel.innerText = "+ Ajoutez photo"
     limitSizeText.innerText = "jpg, png : 4mo max"
-    //
+    
+    // Rajout des caractéristiques des balises titre et catégorie
     divNameCategorie.classList = "name-category"
     pictureName.type = "text"
     pictureName.id = "pictureName"
@@ -88,7 +89,7 @@ function AddPictures () {
     addPictureDiv.appendChild(pictureInputLabel)
     addPictureDiv.appendChild(limitSizeText)
 
-    // Rattachement name and category
+    // Rattachement nom et catégorie
     divModale.insertAdjacentElement("beforebegin", divNameCategorie)
     divNameCategorie.appendChild(pictureNameLabel)
     divNameCategorie.appendChild(pictureName)
@@ -99,7 +100,7 @@ function AddPictures () {
     categoryName.appendChild(category3)
 }
 
-// Création de la modale avec par défaut
+// Création de la structure modale
 export async function modaleBox () { 
     const main = document.querySelector("body")
     const modaleSection = document.createElement("section")
@@ -109,27 +110,22 @@ export async function modaleBox () {
     const bar = document.createElement("div")
     const addButton = document.createElement("button")
     const returnArrow = document.createElement("i")
-
     const fetchBtn = document.createElement("button")
-    //
+    
+    // Rajout des caractéristiques
     modaleSection.classList.add("modale")
-    //
     modaleDiv.classList.add("modale-box")
-    // 
     closeCross.classList.add("close")
     closeCross.innerHTML = "&times;"
-    // 
     text.innerText ="Galerie photo"
-    //
     bar.classList.add("bar")
-    //
     addButton.classList = ("modale-btn btn-hover")
     addButton.innerText = "Ajouter une photo"
     fetchBtn.classList = ("inactive-btn fetch")
     fetchBtn.innerText = ("Valider")
-    // 
     returnArrow.classList = "return-arrow fa-solid fa-arrow-left"
 
+    // Rattachement 
     main.insertAdjacentElement("afterbegin", modaleSection)
     modaleSection.appendChild(modaleDiv)
     modaleDiv.appendChild(closeCross)
@@ -141,10 +137,12 @@ export async function modaleBox () {
     divPhotos.classList = "container-photos"
     divModale.appendChild(divPhotos)
 
+    // Fonction la 1ere fenêtre de la modale avec les images
     modalePictures(works)
     modaleDiv.appendChild(bar)
     modaleDiv.appendChild(addButton)
     modaleDiv.appendChild(fetchBtn)
+    // Fonction de 2eme fenêtre de la modale pour l'ajout
     AddPictures()
 }
 
@@ -160,33 +158,31 @@ export async function openCloseModale () {
     const fetchBtn = document.querySelector(".fetch")
     const ajouterPhoto = document.querySelector(".modale-btn")
 
+    // Bouton Affichant la modal
     modaleButton.onclick = function() {
         modal.style.display = "block"
-        returnArrow.style.display = "none"
         photoContainer.style.display = "flex"
+
+        returnArrow.style.display = "none"
         addPhotoContainer.style.display = "none"
         nameAndCategory.style.display = "none"
     }
 
+    // Bouton croix pour fermeture modal
     closeModale.onclick = function() {
+        ajouterPhoto.style.display = "block"
+
         modal.style.display = "none"
         fetchBtn.style.display = "none"
-        ajouterPhoto.style.display = "block"
-        /*
-        document.querySelector(".ajouter-photo img").style.display = "none"
-        document.querySelector(".ajouter-photo div").style.display = "flex"
-        */
     }
 
+    // Fermeture modal si clic en dehors de la box
     window.onclick = function(y) {
         if (y.target == modal) {
+            ajouterPhoto.style.display = "block"
+
             modal.style.display = "none";
             fetchBtn.style.display = "none"
-            ajouterPhoto.style.display = "block"
-            /*
-            document.querySelector(".ajouter-photo img").style.display = "none"
-            document.querySelector(".ajouter-photo div").style.display = "flex"
-            */
         }
     }
 }
@@ -202,21 +198,23 @@ export function addPhotoModal () {
 
     ajouterPhoto.addEventListener("click", function(){
         returnArrow.style.display = "block"
-        photoContainer.style.display = "none"
+        fetchBtn.style.display = "block"
         addPhotoContainer.style.display = "flex"
         nameAndCategory.style.display = "flex"
+
+        photoContainer.style.display = "none"
         ajouterPhoto.style.display = "none"
-        fetchBtn.style.display = "block"
+
     })
+    
     returnArrow.addEventListener("click", function(){
-        returnArrow.style.display = "none"
+        ajouterPhoto.style.display = "block"
         photoContainer.style.display = "flex"
+
+        returnArrow.style.display = "none"
         addPhotoContainer.style.display = "none"
         nameAndCategory.style.display = "none"
-        ajouterPhoto.style.display = "block"
         fetchBtn.style.display = "none"
-            
-        document.querySelector(".ajouter-photo div").style.display = "flex"
     })
 }
 

@@ -1,8 +1,18 @@
 const formLogin = document.querySelector(".form-login")
 
+// Permet de retourner sur la page des projets
+function projetBouton () {
+    const login = document.querySelectorAll("header li")[0]
+    login.addEventListener("click", function() {
+        window.location.replace("index.html")
+    })
+}
+projetBouton()
+
 // Variable permettant ensuite d'intégrer event
 let y = ""
 
+// Envoie de la requête à l'API
 function login () {
     const log = {
         email: y.target.querySelector("[name=email]").value,
@@ -23,6 +33,7 @@ function login () {
     return token
 }
 
+// Vérification de la requête et renvoie vers index si token valide
 formLogin.addEventListener("submit", async function (event) {
     const incorrectPwd = document.querySelector(".login p")
     incorrectPwd.style.display = "none"

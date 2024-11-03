@@ -1,4 +1,4 @@
-import { logoutButton, boutonsFiltres } from "./gestionButtons.js";
+import { logoutBouton, boutonsFiltres } from "./gestionButtons.js";
 
 // Récupération works et catégorie depuis l'API
 const reponseWorks = await fetch("http://localhost:5678/api/works/");
@@ -10,6 +10,7 @@ let categories = await reponseCategories.json();
 
 export function genererProjets(works) {
     for (let i = 0; i < works.length; i++) {
+        // Création des balises
         const figure = works[i];
         const divGallerie = document.querySelector(".gallery");
         const workElement = document.createElement("figure");
@@ -58,29 +59,37 @@ export function genererCategories(){
 
 // Ajout de la barre "Mode édition"
 function modeEdition () {
+    // Création balise
     const body = document.querySelector("body")
     const editionBar = document.createElement("div")
     const icone = document.createElement("i")
     const text = document.createElement("p")
+
+    // Ajout class et texte
     editionBar.classList = "edition"
     icone.classList = "fa-regular fa-pen-to-square"
     text.innerText = "Mode édition"
+
+    // Rattachement
     body.insertAdjacentElement("afterbegin", editionBar)
     editionBar.appendChild(icone)
     editionBar.appendChild(text)
-    logoutButton()
+    logoutBouton()
 }
 
 function boutonEdition () {
+    // Création balise
     const filtres = document.querySelector(".filtres")
     filtres.classList.add("invisible")
-
     const portFolio = document.querySelector("#portfolio h2")
     const editionButton = document.createElement("span")
     const icone = document.createElement("i")
+
+    // Ajout class et texte
     icone.classList = "fa-regular fa-pen-to-square"
     editionButton.innerText = "modifier"
     
+    // Rattachement
     portFolio.appendChild(editionButton)
     editionButton.insertAdjacentElement("afterbegin", icone)
 }

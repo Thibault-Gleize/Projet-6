@@ -1,6 +1,8 @@
-import { supprProjet, ajouterWorkBtn, imgChange, txtChange } from "./gestionButtons.js"
+import { supprProjet, ajouterWorkBtn, imgChange, txtChange, loginBouton } from "./gestionButtons.js"
 import {genererProjets, genererCategories, works, edition} from "./index.js"
 import { modalButtons, modaleBox } from "./modal.js"
+
+// window href login et projet
 
 let token = window.localStorage.getItem("token")
 
@@ -15,5 +17,8 @@ if (token) {
     imgChange()
     txtChange()
     ajouterWorkBtn()
+}
+else {
+    loginBouton()
 }
 
