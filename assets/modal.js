@@ -218,7 +218,7 @@ export function addPhotoModal () {
     })
 }
 
-export function modalBoutons () {
+export function modaleBoutons () {
     openCloseModale()
     addPhotoModal()
 }
